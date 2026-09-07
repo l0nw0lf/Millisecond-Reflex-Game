@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Millisecond"
+description = "A precision reflex game for the Optimum community. Players test their timing across ten progressively harder network-propagation rounds, activate tactical power-ups, and compete on a persistent leaderboard."
+version = "1.0.0"
+id = "artifacts/millisecond"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20812
+
+[services.development]
+run = "pnpm --filter @workspace/millisecond run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/millisecond", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/millisecond/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20812"
+BASE_PATH = "/"
